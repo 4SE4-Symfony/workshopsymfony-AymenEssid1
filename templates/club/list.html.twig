@@ -1,3 +1,4 @@
+<img src="{{ asset('img/symfony_black_03.png') }}" alt="imagetest">
 <h1>La liste des formations de la classe {{ classe}} dans la salle {{ salle }}</h1>
 {% if tab is empty %}
 <h4 style="color: crimson">Tab vide</h4>
@@ -9,9 +10,13 @@
         <td>Description</td>
         <td>NP</td>
         <td>Participer</td>
+
     </tr>
+    {% set s=0 %}
     {% for i in tab  %}
+        {#{% if i.Description=="formation pratique" %}#}
         <tr>
+            {% set s=s+i.nb_participants %}
             <td>{{ i.ref }}</td>
             <td>{{ i.Titre|upper }}</td>
             <td>{{ i.Description }}</td>
@@ -24,7 +29,16 @@
                     {% endif %}
             </td>
         </tr>
+{#        {% endif %}#}
     {% endfor %}
 </table>
 {% endif %}
-Nb de formations: {{ tab|length }}
+Nb de formations: {{ tab|length }}<br>
+nb de part:{{ s }}<br>
+la formation ayant le plus grand nb de participant:<br>
+{% set max=tab[0] %}
+{% for i in tab %}
+{% if i.nb_participants>max.nb_participants %}
+{% set max=i %}
+{% endif %}
+{% endfor %}
